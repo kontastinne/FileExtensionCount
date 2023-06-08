@@ -1,13 +1,9 @@
- static void FileExtensionCount (string path)
- {
+static void FileExtensionCount(string path)
+{
     List<string> fileList = new List<string>();
     foreach (string file in Directory.GetFiles(path, "*", SearchOption.AllDirectories))
     {
-        string fileExtension = string.Empty;
-        int index = file.LastIndexOf(".");
-        if (index >= 0)
-            fileExtension = file.Substring(index, file.Length - index);
-        fileList.Add(fileExtension);
+        fileList.Add(Path.GetExtension(file));
     }
 
     for (int i = 0; i < fileList.Count; i++)
