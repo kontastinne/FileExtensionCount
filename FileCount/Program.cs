@@ -1,6 +1,5 @@
-﻿
  static void FileExtensionCount (string path)
-{
+ {
     List<string> fileList = new List<string>();
     foreach (string file in Directory.GetFiles(path, "*", SearchOption.AllDirectories))
     {
@@ -24,5 +23,4 @@
         }
         Console.WriteLine("There are {0} files with extension {1}", count, fileList[i]);
     }
-
- }
+}
