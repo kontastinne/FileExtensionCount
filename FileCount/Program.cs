@@ -1,6 +1,6 @@
 
 
-DirectoryFilesExtensionCount(@"D:\C#");
+DirectoryFilesExtensionCount(@"");
 
 static void DirectoryFilesExtensionCount(string directory)
 {
