@@ -1,28 +1,18 @@
 ﻿
- static void FileExtensionCount (string path)
+
+using System.Linq;
+
+DirectoryFilesExtensionCount(@"D:\C#");
+
+static void DirectoryFilesExtensionCount(string directory)
 {
-    List<string> fileList = new List<string>();
-    foreach (string file in Directory.GetFiles(path, "*", SearchOption.AllDirectories))
-    {
-        string fileExtension = string.Empty;
-        int index = file.LastIndexOf(".");
-        if (index >= 0)
-            fileExtension = file.Substring(index, file.Length - index);
-        fileList.Add(fileExtension);
-    }
+    var filesCount = new DirectoryInfo(directory);
 
-    for (int i = 0; i < fileList.Count; i++)
-    {
-        int count = 1;
-        for (int j = 1 + i; j < fileList.Count; j++)
-        {
-            if (fileList[i] == fileList[j])
-            {
-                fileList.RemoveAt(j);
-                count++;
-            }
-        }
-        Console.WriteLine("There are {0} files with extension {1}", count, fileList[i]);
-    }
+    var result = filesCount.EnumerateFiles("*", SearchOption.AllDirectories)
+                           .GroupBy(file => file.Extension)
+                           .Select(file => new { Extension = file.Key, Count = file.Count() })
+                           .OrderByDescending(file => file.Count)
+                           .ToList();
 
- }
+    result.ForEach(Console.WriteLine);
+}
