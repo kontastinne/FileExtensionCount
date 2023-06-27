@@ -37,6 +37,8 @@ namespace FileCount
             listExtensions.OrderBy(x => x.Count);
             return listExtensions;
         }
+
+        public List<FileInformation> OrderByDescending(List<FileInformation> listExtensions)
             {
 
             listExtensions.OrderByDescending(x => x.Count);
