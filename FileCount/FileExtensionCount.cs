@@ -17,7 +17,7 @@ namespace FileCount
         public string GetDirectory(string path)
         {
             return this.path = path;
-            }
+        }
         public List<FileInformation> GetExtensions(List<FileInformation> listExtensions)
         {
             var extensionCounts = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories)
@@ -39,14 +39,14 @@ namespace FileCount
         }
 
         public List<FileInformation> OrderByDescending(List<FileInformation> listExtensions)
-            {
+        {
 
             listExtensions.OrderByDescending(x => x.Count);
             return listExtensions;
-            }
+        }
 
         public string GetListExtensions()
-            {
+        {
             return $"There are {this.Count} files with extension: {this.Extension}";
         }
     }
