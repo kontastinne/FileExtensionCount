@@ -10,6 +10,13 @@ namespace FileCount
     {
         private string path;
 
+        private List<FileInformation> listExtensions;
+        public string Extension { get; set; }
+        public int Count { get; set; }
+
+        public string GetDirectory(string path)
+        {
+            return this.path = path;
             }
         public List<FileInformation> GetExtensions(List<FileInformation> listExtensions)
         {
