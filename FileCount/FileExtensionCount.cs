@@ -6,56 +6,39 @@ using System.Threading.Tasks;
 
 namespace FileCount
 {
-    internal class FileExtensionCount
+    internal class FileInformation
     {
         private string path;
-        private List<string> filesPath;
-        public FileExtensionCount(string path)
-        {
-            if (path == string.Empty)
-            {
-                throw new ArgumentNullException("The path cannot be empty");
 
             }
-            this.path = path;
-            GetExtensionsFromPath();
-        }
-        /// <summary>
-        /// extracts the extension name from the file in the specified directory
-        /// </summary>
-        private void GetExtensionsFromPath()
+        public List<FileInformation> GetExtensions(List<FileInformation> listExtensions)
         {
-            var filesPath = new List<string>();
-            var result = Directory.GetFiles(path, "*", SearchOption.AllDirectories);
-            foreach (var item in result)
+            var extensionCounts = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories)
+               .GroupBy(x => Path.GetExtension(x))
+               .Select(g => new { Extension = g.Key, Count = g.Count() });
+            foreach (var item in extensionCounts)
             {
-                filesPath.Add(Path.GetExtension(item));
+                listExtensions.Add(new FileInformation { Extension = item.Extension, Count = item.Count });
             }
-            this.filesPath = filesPath;
+            this.listExtensions = listExtensions;
+            return listExtensions;
         }
-        /// <summary>
-        /// Sort extensions of files in the specified directory from largest to smallest
-        /// </summary>
-        public void GroupByDescending()
+
+        public List<FileInformation> OrderByAscending(List<FileInformation> listExtensions)
         {
-            var result = filesPath.GroupBy(g => g, (ext, extcnt) => new { Extension = ext, Count = extcnt.Count() }).OrderByDescending(x => x.Count);
-            foreach (var ext in result)
+
+            listExtensions.OrderBy(x => x.Count);
+            return listExtensions;
+        }
             {
-                Console.WriteLine("There are {0} files with extension: {1}", ext.Count, ext.Extension);
+
+            listExtensions.OrderByDescending(x => x.Count);
+            return listExtensions;
             }
 
-        }
-        /// <summary>
-        /// Sort extensions of files in the specified directory from smallest to largest
-        /// </summary>
-        public void GroupByAscending()
-        {
-            var result = filesPath.GroupBy(g => g, (ext, extcnt) => new { Extension = ext, Count = extcnt.Count() }).OrderBy(x => x.Count);
-            foreach (var ext in result)
+        public string GetListExtensions()
             {
-                Console.WriteLine("There are {0} files with extension: {1}", ext.Count, ext.Extension);
-            }
+            return $"There are {this.Count} files with extension: {this.Extension}";
         }
     }
 }
-
